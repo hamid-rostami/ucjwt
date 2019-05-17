@@ -1,0 +1,5 @@
+*.o
+ucjwt
+*.swo
+*.swp
+
