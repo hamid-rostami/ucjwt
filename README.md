@@ -1,5 +1,6 @@
 # JWT implemention for Microcontroller
-Encode and decode JWT tokens. Lightweight and no need to external library, suitable for using in microcontrollers.
+Encode and decode JWT tokens. Lightweight and no need to external library,
+suitable for using in microcontrollers.
 
 # Sample usage
 
