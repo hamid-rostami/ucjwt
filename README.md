@@ -25,3 +25,28 @@ decode_result = jwt_decode(token, strlen(token),
                            key, strlen(key),
                            data, sizeof(data));
 ```
+
+`decode_result` is a typedef in `jwt.h` file:
+
+```c
+typedef enum {
+  JWTDecode_Verified = 0,      // Everything is fine
+  JWTDecode_NotVerified = -1,  // Signture verification failed
+  JWTDecode_BadToken = -2,     // Bad JWT Token
+  JWTDecode_NoBufSpace = -3    // No input buffer space to copy decoded payload
+} JWTDecode;
+```
+
+`jwt_decode` output explaination:
+
+* JWTDecode_Verified:
+Token signture verified successfully and data copied to given buffer.
+
+* JWTDecode_NotVerified:
+Token signture is wrong, but data copied to given buffer.
+
+* JWTDecode_BadToken:
+Given token is not in JWT format.
+
+* JWTDecode_NoBufSpace:
+Not implemented yet!
