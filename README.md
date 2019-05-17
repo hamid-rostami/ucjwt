@@ -9,7 +9,9 @@ char *data = "{\"uname\":\"user\"}";
 char *key = "secretkey";
 char *token;
 
-token = jwt_encode(data1, strlen(data1), key, strlen(key));
+token = jwt_encode(data, strlen(data), key, strlen(key));
+/* your codes ... */
+free(token)
 ```
 
 ## Decode
