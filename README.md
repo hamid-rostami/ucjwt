@@ -3,7 +3,7 @@ Encode and decode JWT tokens. Lightweight and no need to external library, suita
 
 # Sample usage
 
-##Encode
+## Encode
 ```c
 char *data = "{\"uname\":\"user\"}";
 char *key = "secretkey";
@@ -12,7 +12,7 @@ char *token;
 token = jwt_encode(data1, strlen(data1), key, strlen(key));
 ```
 
-##Decode
+## Decode
 ```c
 char data[100];
 JWTDecode decode_result;
