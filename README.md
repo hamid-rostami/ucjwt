@@ -2,6 +2,8 @@
 Encode and decode JWT tokens. Lightweight and no need to external library,
 suitable for using in microcontrollers.
 
+At this moment, only `HS256` algorithm supported.
+
 # Sample usage
 
 ## Encode
