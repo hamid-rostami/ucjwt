@@ -17,6 +17,16 @@ token = jwt_encode(data, strlen(data), key, strlen(key));
 free(token)
 ```
 
+## Compile example
+For compile and run example:
+
+```bash
+cd example
+cmake .
+make
+./example
+```
+
 ## Decode
 ```c
 char data[100];
