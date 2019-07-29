@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+/* HS256 base64 encoded length */
+#define   HS256_B64_LEN   44
+
 typedef enum {
   JWTDecode_Verified = 0,      // Everything is fine
   JWTDecode_NotVerified = -1, // Signture verification failed

@@ -24,5 +24,18 @@ int main(void)
   printf("jwt_decode: %d %s\n", decode_result,
                                 decode_result == JWTDecode_Verified ? "(Verified)" : "" );
   printf("Retrived data: %s\n", data2);
+
+
+  /* Corrept sign */
+  *(token + strlen(token) - 5) = '\0';
+  printf("correpted token: %s\n", token);
+
+  decode_result = jwt_decode(token, strlen(token),
+                              key, strlen(key),
+                              data2, sizeof(data2));
+  printf("jwt_decode: %d %s\n", decode_result,
+                                decode_result == JWTDecode_Verified ? "(Verified)" : "" );
+  printf("Retrived data: %s\n", data2);
+
   return 0;
 }
