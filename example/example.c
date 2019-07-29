@@ -17,14 +17,23 @@ int main(void)
              key, strlen(key));
   printf("Original data: %s\n", data1);
   printf("jwt_encode: %s\n", token);
+  printf("----\n");
 
   decode_result = jwt_decode(token, strlen(token),
                               key, strlen(key),
-                              data2, sizeof(data2));
-  printf("jwt_decode: %d %s\n", decode_result,
-                                decode_result == JWTDecode_Verified ? "(Verified)" : "" );
-  printf("Retrived data: %s\n", data2);
+                              data2, sizeof(data2),
+                              false);
+  printf("Retrived data without check sign: %s\n", data2);
+  printf("----\n");
 
+  decode_result = jwt_decode(token, strlen(token),
+                              key, strlen(key),
+                              data2, sizeof(data2),
+                              true);
+  printf("jwt_decode: %d %s\n", decode_result,
+                                decode_result == JWTDecode_OK ? "(Verified)" : "" );
+  printf("Retrived data: %s\n", data2);
+  printf("----\n");
 
   /* Corrept sign */
   *(token + strlen(token) - 5) = '\0';
@@ -32,9 +41,10 @@ int main(void)
 
   decode_result = jwt_decode(token, strlen(token),
                               key, strlen(key),
-                              data2, sizeof(data2));
+                              data2, sizeof(data2),
+                              true);
   printf("jwt_decode: %d %s\n", decode_result,
-                                decode_result == JWTDecode_Verified ? "(Verified)" : "" );
+                                decode_result == JWTDecode_OK ? "(Verified)" : "" );
   printf("Retrived data: %s\n", data2);
 
   return 0;

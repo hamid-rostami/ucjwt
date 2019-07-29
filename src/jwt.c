@@ -74,7 +74,8 @@ jwt_encode(char *payload, size_t payload_size,
 JWTDecode
 jwt_decode(char *token, size_t token_size,
            char *key, size_t key_size,
-           char *data, size_t data_len)
+           char *data, size_t data_len,
+           bool check_sign)
 {
   char *dot1_p;       // Point to first dor in token
   char *dot2_p;       // Point to secod dot
@@ -87,7 +88,7 @@ jwt_decode(char *token, size_t token_size,
   size_t payload_len;
   size_t msg_sign_len;
   char *end = data + data_len - 1;  // Point to last character of token
-  int ret = JWTDecode_Verified;
+  int ret = JWTDecode_OK;
 
   dot1_p = strchr(token, '.');
   if (dot1_p == NULL || dot1_p == end) {
@@ -122,6 +123,13 @@ jwt_decode(char *token, size_t token_size,
     *(data + payload_len) = '\0';
   }
   free(payload);
+
+  if (!check_sign) {
+    if (data == NULL)
+      return JWTDecode_NoBufSpace;
+    else
+      return JWTDecode_OK;
+  }
 
   /* Check message sign length */
   if (msg_sign_len != HS256_B64_LEN)
