@@ -9,7 +9,7 @@
 
 /* default header: {"alg":"HS256","typ":"JWT"} */
 const char jwt_header_b64[] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
-const size_t jwt_header_b64_len = 36;   // FIXME: convert to Macro,  sizeof(jwt_header_b64)
+#define   JWT_HDR_B64_LEN   sizeof(jwt_header_b64) - 1
 
 /* Generate b64 encoded HS256 string,
  * Caller is responsible for freeing the returned buffer. Returned buffer is
@@ -49,21 +49,21 @@ jwt_encode(char *payload, size_t payload_size,
   // 2 for two dots and 44 for hs256 base64 output
   // hs256 output is always 32 bytes == 44 byte of base64 string
   // Plus 1 more space for NULL terminator
-  token_len = payload_b64_len + jwt_header_b64_len + 2 + 44 + 1;
+  token_len = payload_b64_len + JWT_HDR_B64_LEN + 2 + 44 + 1;
   token = malloc(token_len); 
   *(token + token_len - 1) = '\0';   // Insert NULL at last position
   // Header (base64)
-  memcpy(token, jwt_header_b64, jwt_header_b64_len);
+  memcpy(token, jwt_header_b64, JWT_HDR_B64_LEN);
   // Dot
-  *(token + jwt_header_b64_len) = '.';
+  *(token + JWT_HDR_B64_LEN) = '.';
   // Payload (base64)
-  memcpy(token + jwt_header_b64_len + 1, payload_b64, payload_b64_len);
+  memcpy(token + JWT_HDR_B64_LEN + 1, payload_b64, payload_b64_len);
   // Calculate HS256
-  hs256_msg_len = jwt_header_b64_len + 1 + payload_b64_len;
+  hs256_msg_len = JWT_HDR_B64_LEN + 1 + payload_b64_len;
   hs256_b64 = jwt_hs256_gen(key, key_size, token, hs256_msg_len);
 
-  *(token + jwt_header_b64_len + 1 + payload_b64_len) = '.';
-  memcpy(token+jwt_header_b64_len+1+payload_b64_len+1, hs256_b64, 44);
+  *(token + JWT_HDR_B64_LEN + 1 + payload_b64_len) = '.';
+  memcpy(token+JWT_HDR_B64_LEN+1+payload_b64_len+1, hs256_b64, 44);
 
   free(payload_b64);
   free(hs256_b64);
@@ -85,6 +85,7 @@ jwt_decode(char *token, size_t token_size,
   size_t header_b64_len;
   size_t payload_b64_len;
   size_t payload_len;
+  size_t msg_sign_len;
   char *end = data + data_len - 1;  // Point to last character of token
   int ret = JWTDecode_Verified;
 
@@ -106,6 +107,7 @@ jwt_decode(char *token, size_t token_size,
   payload_b64_len = dot2_p - (dot1_p + 1);
 
   msg_sign = dot2_p + 1;
+  msg_sign_len = (token + token_size - 1) - dot2_p;
 
   payload = base64_decode((const unsigned char*)payload_b64,
                           payload_b64_len,
@@ -121,12 +123,16 @@ jwt_decode(char *token, size_t token_size,
   }
   free(payload);
 
+  /* Check message sign length */
+  if (msg_sign_len != HS256_B64_LEN)
+    return JWTDecode_NotVerified;
+
   sign = jwt_hs256_gen(key,
                        key_size,
                        token,
                        header_b64_len + payload_b64_len + 1);   // +1 for separating dot
 
-  if (strncmp((char*)sign, msg_sign, strlen((char*)sign) != 0))
+  if (strncmp((char*)sign, msg_sign, msg_sign_len) != 0)
     ret = JWTDecode_NotVerified;
 
   free(sign);
