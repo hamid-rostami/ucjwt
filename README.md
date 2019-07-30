@@ -51,14 +51,14 @@ typedef enum {
 
 `jwt_decode` output explaination:
 
-* JWTDecode_Verified:
+* `JWTDecode_Verified`:
 Token signture verified successfully and data copied to given buffer.
 
-* JWTDecode_NotVerified:
+* `JWTDecode_NotVerified`:
 Token signture is wrong, but data copied to given buffer.
 
-* JWTDecode_BadToken:
+* `JWTDecode_BadToken`:
 Given token is not in JWT format.
 
-* JWTDecode_NoBufSpace:
-Not implemented yet!
+* `JWTDecode_NoBufSpace`:
+No enough space to copy token's payload data
