@@ -124,12 +124,8 @@ jwt_decode(char *token, size_t token_size,
   }
   free(payload);
 
-  if (!check_sign) {
-    if (data == NULL)
-      return JWTDecode_NoBufSpace;
-    else
-      return JWTDecode_OK;
-  }
+  if (!check_sign)
+    return data == NULL ? JWTDecode_NoBufSpace : JWTDecode_OK;
 
   /* Check message sign length */
   if (msg_sign_len != HS256_B64_LEN)
