@@ -21,23 +21,26 @@
 
 #include "sha256.h"
 
-#define HMAC_SHA256_BITS        SHA256_HASH_BITS
-#define HMAC_SHA256_BYTES       SHA256_HASH_BYTES
-#define HMAC_SHA256_BLOCK_BITS  SHA256_BLOCK_BITS
+#define HMAC_SHA256_BITS SHA256_HASH_BITS
+#define HMAC_SHA256_BYTES SHA256_HASH_BYTES
+#define HMAC_SHA256_BLOCK_BITS SHA256_BLOCK_BITS
 #define HMAC_SHA256_BLOCK_BYTES SHA256_BLOCK_BYTES
 
+typedef struct { sha256_ctx_t a, b; } hmac_sha256_ctx_t;
 
-typedef struct {
-	sha256_ctx_t a,b;
-} hmac_sha256_ctx_t;
-
-
-void hmac_sha256_init(hmac_sha256_ctx_t *s, const void *key, uint16_t keylength_b);
+void hmac_sha256_init(hmac_sha256_ctx_t *s,
+                      const void *key,
+                      uint16_t keylength_b);
 void hmac_sha256_nextBlock(hmac_sha256_ctx_t *s, const void *block);
-void hmac_sha256_lastBlock(hmac_sha256_ctx_t *s, const void *block, uint16_t length_b);
+void hmac_sha256_lastBlock(hmac_sha256_ctx_t *s,
+                           const void *block,
+                           uint16_t length_b);
 void hmac_sha256_final(void *dest, hmac_sha256_ctx_t *s);
 
-void hmac_sha256(void *dest, const void *key, uint16_t keylength_b, const void *msg, uint32_t msglength_b);
-
+void hmac_sha256(void *dest,
+                 const void *key,
+                 uint16_t keylength_b,
+                 const void *msg,
+                 uint32_t msglength_b);
 
 #endif /*HMACSHA256_H_*/
