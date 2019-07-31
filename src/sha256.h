@@ -18,17 +18,16 @@
 */
 /**
  * \file	sha256.h
- * \author  Daniel Otte 
+ * \author  Daniel Otte
  * \date    2006-05-16
  * \license	GPLv3 or later
- * 
+ *
  */
 
 #ifndef SHA256_H_
 #define SHA256_H_
 
 #define __LITTLE_ENDIAN__
-
 
 #include <stdint.h>
 
@@ -48,24 +47,24 @@
  * defines the size of a SHA-256 input block in bytes
  */
 
-#define SHA256_HASH_BITS  256
-#define SHA256_HASH_BYTES (SHA256_HASH_BITS/8)
+#define SHA256_HASH_BITS 256
+#define SHA256_HASH_BYTES (SHA256_HASH_BITS / 8)
 #define SHA256_BLOCK_BITS 512
-#define SHA256_BLOCK_BYTES (SHA256_BLOCK_BITS/8)
+#define SHA256_BLOCK_BYTES (SHA256_BLOCK_BITS / 8)
 
 /** \typedef sha256_ctx_t
  * \brief SHA-256 context type
- * 
+ *
  * A variable of this type may hold the state of a SHA-256 hashing process
  */
 typedef struct {
-	uint32_t h[8];
-	uint64_t length;
+  uint32_t h[8];
+  uint64_t length;
 } sha256_ctx_t;
 
 /** \typedef sha256_hash_t
  * \brief SHA-256 hash value type
- * 
+ *
  * A variable of this type may hold the hash value produced by the
  * sha256_ctx2hash(sha256_hash_t *dest, const sha256_ctx_t *state) function.
  */
@@ -73,7 +72,7 @@ typedef uint8_t sha256_hash_t[SHA256_HASH_BYTES];
 
 /** \fn void sha256_init(sha256_ctx_t *state)
  * \brief initialise a SHA-256 context
- * 
+ *
  * This function sets a ::sha256_ctx_t to the initial values for hashing.
  * \param state pointer to the SHA-256 hashing context
  */
@@ -81,24 +80,28 @@ void sha256_init(sha256_ctx_t *state);
 
 /** \fn void sha256_nextBlock (sha256_ctx_t *state, const void *block)
  * \brief update the context with a given block
- * 
+ *
  * This function updates the SHA-256 hash context by processing the given block
  * of fixed length.
  * \param state pointer to the SHA-256 hash context
  * \param block pointer to the block of fixed length (512 bit = 64 byte)
  */
-void sha256_nextBlock (sha256_ctx_t *state, const void *block);
+void sha256_nextBlock(sha256_ctx_t *state, const void *block);
 
-/** \fn void sha256_lastBlock(sha256_ctx_t *state, const void *block, uint16_t length_b)
- * \brief finalize the context with the given block 
- * 
- * This function finalizes the SHA-256 hash context by processing the given block
+/** \fn void sha256_lastBlock(sha256_ctx_t *state, const void *block, uint16_t
+ * length_b)
+ * \brief finalize the context with the given block
+ *
+ * This function finalizes the SHA-256 hash context by processing the given
+ * block
  * of variable length.
  * \param state pointer to the SHA-256 hash context
  * \param block pointer to the block of fixed length (512 bit = 64 byte)
  * \param length_b the length of the block in bits
  */
-void sha256_lastBlock(sha256_ctx_t *state, const void *block, uint16_t length_b);
+void sha256_lastBlock(sha256_ctx_t *state,
+                      const void *block,
+                      uint16_t length_b);
 
 /** \fn void sha256_ctx2hash(sha256_hash_t *dest, const sha256_ctx_t *state)
  * \brief convert the hash state into the hash value
@@ -110,10 +113,11 @@ void sha256_ctx2hash(sha256_hash_t *dest, const sha256_ctx_t *state);
 
 /** \fn void sha256(sha256_hash_t *dest, const void *msg, uint32_t length_b)
  * \brief simple SHA-256 hashing function for direct hashing
- * 
+ *
  * This function automaticaly hashes a given message of arbitary length with
  * the SHA-256 hashing algorithm.
- * \param dest pointer to the location where the hash value is going to be written to
+ * \param dest pointer to the location where the hash value is going to be
+ * written to
  * \param msg pointer to the message thats going to be hashed
  * \param length_b length of the message in bits
  */
