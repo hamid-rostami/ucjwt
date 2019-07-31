@@ -30,17 +30,22 @@ jwt_hs256_gen(char *key, size_t key_len,
   return b64;
 }
 
-char*
+int
 jwt_encode(char *payload, size_t payload_size,
-           char *key, size_t key_size)
+           char *key, size_t key_size,
+           char *token, size_t token_size)
 {
   unsigned char *payload_b64;
-  char *token;
+  //char *token;
   unsigned char *hs256_b64;
   size_t payload_b64_len;
   size_t token_len;
   uint32_t hs256_msg_len;
 
+  if (payload == NULL || payload_size == 0 ||
+      key == NULL || key_size == 0 ||
+      token == NULL || token_size == 0)
+    return -1;
 
   payload_b64 = base64_encode((const unsigned char*)payload,
                               payload_size,
@@ -48,10 +53,11 @@ jwt_encode(char *payload, size_t payload_size,
 
   // 2 for two dots and 44 for hs256 base64 output
   // hs256 output is always 32 bytes == 44 byte of base64 string
-  // Plus 1 more space for NULL terminator
-  token_len = payload_b64_len + JWT_HDR_B64_LEN + 2 + 44 + 1;
-  token = malloc(token_len); 
-  *(token + token_len - 1) = '\0';   // Insert NULL at last position
+  token_len = payload_b64_len + JWT_HDR_B64_LEN + 2 + 44;
+  // >= is because we need 1 more space for NULL terminator
+  if (token_len >= token_size)
+    return -1;
+  *(token + token_len) = '\0';   // Insert NULL at last position
   // Header (base64)
   memcpy(token, jwt_header_b64, JWT_HDR_B64_LEN);
   // Dot
@@ -68,7 +74,7 @@ jwt_encode(char *payload, size_t payload_size,
   free(payload_b64);
   free(hs256_b64);
 
-  return token;
+  return token_len;
 }
 
 JWTDecode

@@ -14,9 +14,10 @@ typedef enum {
   JWTDecode_NoBufSpace = -3    // No input buffer space to copy decoded payload
 } JWTDecode;
 
-char*
-jwt_encode(char *data, size_t data_size,
-           char *key, size_t key_size);
+int
+jwt_encode(char *payload, size_t payload_size,
+           char *key, size_t key_size,
+           char *token, size_t token_size);
 
 JWTDecode
 jwt_decode(char *token, size_t token_size,
