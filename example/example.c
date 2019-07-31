@@ -10,13 +10,20 @@ int main(void)
   char *data1 = "{\"uname\":\"user\"}";
   char data2[100];
   char *key = "secretkey";
-  char *token;
+  char token[120];
   JWTDecode decode_result;
+  int r;
 
-  token = jwt_encode(data1, strlen(data1),
-             key, strlen(key));
+  r = jwt_encode(data1, strlen(data1),
+                key, strlen(key),
+                token, sizeof(token));
+  if (r <= 0) {
+    printf("Encode error\n");
+    return 1;
+  }
+
   printf("Original data: %s\n", data1);
-  printf("jwt_encode: %s\n", token);
+  printf("jwt_encode: %d bytes, %s\n", r, token);
   printf("----\n");
 
   decode_result = jwt_decode(token, strlen(token),
