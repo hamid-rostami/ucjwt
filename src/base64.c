@@ -31,7 +31,6 @@ base64_encode(const unsigned char *src, size_t len, size_t *out_len) {
   size_t olen;
 
   olen = len * 4 / 3 + 4; /* 3-byte blocks to 4-byte */
-  olen += olen / 72;      /* line feeds */
   olen++;                 /* nul termination */
   if (olen < len)
     return NULL; /* integer overflow */
