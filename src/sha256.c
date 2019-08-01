@@ -29,7 +29,7 @@
  *
  */
 
-#include "sha256.h"
+#include "ucjwt/sha256.h"
 #include <stdint.h>
 #include <string.h> /* for memcpy, memmove, memset */
 

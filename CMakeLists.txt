@@ -17,6 +17,6 @@ target_compile_options(ucjwt
 
 target_include_directories(ucjwt
                            PUBLIC
-                           "src")
+                           "inc")
 
 add_subdirectory(example)

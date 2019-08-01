@@ -6,7 +6,7 @@
  * See README for more details.
  */
 
-#include "base64.h"
+#include "ucjwt/base64.h"
 #include <string.h>
 
 static const unsigned char base64_table[65] =

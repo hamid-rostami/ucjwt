@@ -1,6 +1,6 @@
-#include "base64.h"
-#include "hmac-sha256.h"
-#include "jwt.h"
+#include "ucjwt/base64.h"
+#include "ucjwt/hmac-sha256.h"
+#include "ucjwt/jwt.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>

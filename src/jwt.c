@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "jwt.h"
+#include "ucjwt/jwt.h"
 
-#include "base64.h"
-#include "hmac-sha256.h"
+#include "ucjwt/base64.h"
+#include "ucjwt/hmac-sha256.h"
 
 /* default header: {"alg":"HS256","typ":"JWT"} */
 const char jwt_header_b64[] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";

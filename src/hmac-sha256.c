@@ -31,8 +31,8 @@
 #include <stdint.h>
 #include <string.h>
 //#include "config.h"
-#include "hmac-sha256.h"
-#include "sha256.h"
+#include "ucjwt/hmac-sha256.h"
+#include "ucjwt/sha256.h"
 
 #define IPAD 0x36
 #define OPAD 0x5C
